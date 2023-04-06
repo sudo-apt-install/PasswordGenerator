@@ -1,72 +1,58 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
+// Write password to the #password input
 function writePassword() {
-  //Building the character base...
-  let lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
-  let uppercaseLetter = lowercaseLetters.toUpperCase();
-  let numbers = "1234567890";
-  let specialChar = ";.<>!@#$%^&*()?/{}[]'";
-  let placeholder = '';
+  var lowercaseLetters = 'abcdefghijklmnopqrstuvwxyz';
+  var uppercaseLetters = lowercaseLetters.toUpperCase();
+  var numbers = '0123456789';
+  var specialChar = '!@#$%^&*()<>?/:;"|{}';
+  var availableChars = "";
 
-  //Determine password length
-  let passLength = prompt("How many characters would you like your password to be? ");
-  
-  // Determine which characters will ultimately go into the character base...
-  let includeLowercaseLetters = prompt("Would you like to include lowercase letters? (yes or no)").toLowerCase();
-  if (includeLowercaseLetters === "yes") {
-    includeLowercaseLetters = true;
-  } else {
-    includeLowercaseLetters = false;
+  // Determine password length
+  var passLength = prompt("Enter a number from 8 to 128 for password length.");
+  passLength = parseInt(passLength);
+  if (passLength < 8 || passLength > 128 || isNaN(passLength)) {
+    alert("Please enter a valid password length between 8 and 128.");
+    return;
   }
 
-  let includeUppercaseLetter = prompt("Would you like to include uppercase letters? (yes or no)").toLowerCase();
-  if (includeUppercaseLetter === "yes") {
-    includeUppercaseLetter = true;
-  } else {
-    includeUppercaseLetter = false;
-  }
+  // Prompt for character sets
+  var includeLowercaseLetters = confirm("Do you want to include lowercase letters?");
+  var includeUppercaseLetters = confirm("Do you want to include uppercase letters?");
+  var incNumbers = confirm("Do you want to include numbers?");
+  var includeSpecialChar = confirm("Do you want to include symbols?");
 
-  let includeNumbers = prompt("Would you like to include numbers? (yes or no)").toLowerCase();
-  if (includeNumbers === "yes") {
-    includeNumbers = true;
-  } else {
-    includeNumbers = false;
-  }
-
-  let includeSpecialChar = prompt("Would you like to include special characters? (yes or no)").toLowerCase();
-  if (includeSpecialChar === "yes") {
-    includeSpecialChar = true;
-  } else {
-    includeSpecialChar = false;
-  }
-
-  let availableCharacters = '';
+  // Create available characters based on user input
   if (includeLowercaseLetters) {
-    availableCharacters += lowercaseLetters;
+    availableChars += lowercaseLetters;
   }
-  if (includeUppercaseLetter) {
-    availableCharacters += uppercaseLetter;
+  if (includeUppercaseLetters){
+    availableChars += uppercaseLetters;
   }
-  if (includeNumbers) {
-    availableCharacters += numbers;
+  if (incNumbers){
+    availableChars += numbers;
   }
-  if (includeSpecialChar) {
-    availableCharacters += specialChar;
-  }
-
-  function generatePassword(length, availableCharacters) {
-    let password = '';
-    for (let i = 0; i < length; i++) {
-      password += availableCharacters.charAt(Math.floor(Math.random() * availableCharacters.length));
-    }
-    return password;
+  if (includeSpecialChar){
+    availableChars += specialChar;
   }
 
-  let password = generatePassword(passLength, availableCharacters);
-  let passwordText = document.querySelector("#password");
+  // Validate that the user has chosen at least one character set
+  if (availableChars.length === 0) {
+    alert("Please choose at least one character set.");
+    return;
+  }
+
+  // Generate password
+  var password = "";
+  for (let i = 0; i < passLength; i++) {
+    password += availableChars.charAt(Math.floor(Math.random() * availableChars.length));
+  }
+
+  // Update password text input with generated password
+  var passwordText = document.querySelector("#password");
   passwordText.value = password;
-  return password;
 }
 
+// Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
