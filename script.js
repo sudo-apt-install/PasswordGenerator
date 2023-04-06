@@ -18,7 +18,7 @@ function writePassword() {
   }
 
   // Prompt for character sets
-  var includeLowercaseLetters = confirm("Do you want to include lowercase letters?");
+  var includeLowercaseLetters = confirm("Do you want to include lowercase letters?",);
   var includeUppercaseLetters = confirm("Do you want to include uppercase letters?");
   var incNumbers = confirm("Do you want to include numbers?");
   var includeSpecialChar = confirm("Do you want to include symbols?");
